@@ -1,0 +1,36 @@
+source: https://www.youtube.com/watch?v=jBzwzrDvZ18
+
+django-admin startproject {myproject}
+python manage.py startapp {myapp}
+
+#django app subset of django project
+
+python manage.py runserver
+
+#root directory (BASE_DIR) contains manage.py
+
+# create urls.py file for app itself
+# add url of view to app urls.py, and 'include' to project urls.py
+# and finally change settings.py to 'DIRS': [BASE_DIR/'templates'] in templates
+# add 'myapp' to myproject/settings.py INSTALLED APPS too 
+
+# migrate app whenever models.py is changed
+python manage.py makemigrations
+python manage.py migrate
+
+# on localhost/admin, can see models behind scenes, but need a user
+python manage.py createsuperuser
+
+# to get model in admin site, in admin.py import model then
+admin.site.register({model})
+
+# set up postgre server and change settings.py DATABASES, as well as installing Pillow and psycopg2
+python manage.py makemigrations
+python manage.py migrate
+
+ #if ever using a POST method in html, use {% csrf_token %}
+
+ # rest API
+ pip install djangorestframework
+
+ # add 'rest_framework' to INSTALLED APPS
