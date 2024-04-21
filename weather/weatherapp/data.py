@@ -2,6 +2,7 @@ import requests
 import json
 import pandas as pd
 import datetime as dt
+import numpy as np
 
 API_key = '27da32eb-30c9-4f67-8010-ce06e2fa6dbe'
 
@@ -15,15 +16,7 @@ sites = requests.get(met_dp + sites_url + '?key=' + API_key)
 
 sites_json = sites.json().get('Locations').get('Location')
 
-sites_list = [dicty.get('name') for dicty in sites_json]
-
-sites_dict = {item.get('name'): item.get('id') for item in sites_json}
-
-sites.status_code
-
-# get time periods available
-tps_url = 'val/wxfcs/all/json/capabilities?res=3hourly'
-tps = requests.get(met_dp + tps_url + '&key=' + API_key).json().get('Resource').get('TimeSteps').get('TS')
+sites_region = {item.get('id'): item.get('region') for item in sites_json}
 
 #####################
 
@@ -32,8 +25,6 @@ forecast_url = 'val/wxfcs/all/json/all?res=3hourly'
 forecast = requests.get(met_dp + forecast_url + '&key=' + API_key)
 
 big_json = forecast.json()
-
-params_list = big_json.get('SiteRep').get('Wx').get('Param')
 
 data_list = big_json.get('SiteRep').get('DV').get('Location')
 
@@ -56,8 +47,6 @@ for n, location in enumerate(data_list):
         for hour in hourly:
             df_hour = pd.concat([df_hour, pd.json_normalize(hour)])
 
-        df_hour['time_period'] = time_periods[:len(df_hour)]
-
         date = day.get('value')
 
         df_hour['date'] = dt.datetime(int(date[:4]), int(date[5:7]), int(date[8:10]))
@@ -74,4 +63,20 @@ for n, location in enumerate(data_list):
 
     print(n)
 
-#df['region'] = df['id'].map()
+# metadata and recoding
+df['region'] = df['i'].map(sites_region)
+
+df['time'] = (df['$'].astype(int) / 60).astype(int)
+
+params_list = big_json.get('SiteRep').get('Wx').get('Param')
+
+params_dict = {'F': 'feels_temp', 'G': 'wind_gust', 'H': 'humidity',
+               'T': 'temp', 'V':'visibility', 'D': 'wind_dir',
+               'S': 'wind_speed', 'U': 'max_UV', 'W':'weather_type',
+               'Pp':'rain_prob'}
+
+df['weather_type'] = df['weather_type'].astype(int)
+
+df['rain'] = np.where(df['weather_type'] >= 9, 1, 0)
+
+df['rain2'] = np.where(df['rain_prob'].astype(int) >= 50, 1, 0)
