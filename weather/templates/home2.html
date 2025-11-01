@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="{% static 'form_style2.css' %}">
+<head>
+    <h1>Better Weather</h1>
+</head>
+<body>
+    <form>
+        <div class="cards">
+            <div class="card">
+                <label for="location">Area</label><br>
+                <input type="search" id="gsearch" name="gsearch"> 
+                <br>
+                <div id="box1" class="multipleSelection">
+                    <div class="selectBox" onclick="toggleCheckboxes('checkBoxes')">
+                        <select name="day" id="day">
+                            <option>Select region/national park</option>
+                        </select>
+                        <div class="overSelect"></div>
+                    </div>
+        
+                    <div id="checkBoxes" class="checkboxes">
+                        <label for="1a">
+                            <input type="checkbox" id="1a" />
+                            checkBox1
+                        </label>
+        
+                        <label for="1b">
+                            <input type="checkbox" id="1b" />
+                            checkBox2
+                        </label>
+                        <label for="1c">
+                            <input type="checkbox" id="1c" />
+                            checkBox3
+                        </label>
+                    </div>
+                </div>    
+            </div>
+
+            <div class="card">
+                <label for="distance">Distance</label><br>
+                <input type="range" id="distance" name="distance" min="0" max="100" step="10">
+            </div>
+
+            <div class="card">
+                <label for="activity">Activity</label><br>
+                <div id="box2" class="multipleSelection">
+                    <div class="selectBox" onclick="toggleCheckboxes('checkBoxes2')">
+                        <select name="activity" id="activity">
+                            <option>Select activities</option>
+                        </select>
+                        <div class="overSelect"></div>
+                    </div>
+        
+                    <div id="checkBoxes2" class="checkboxes">
+                        <label for="2a">
+                            <input type="checkbox" id="2a" />
+                            checkBox1
+                        </label>
+        
+                        <label for="2b">
+                            <input type="checkbox" id="2b" />
+                            checkBox2
+                        </label>
+                        <label for="2c">
+                            <input type="checkbox" id="2c" />
+                            checkBox3
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div id="box3" class="multipleSelection">
+                    <div class="selectBox" onclick="toggleCheckboxes('checkBoxes3')">
+                        <select>
+                            <option>Select options</option>
+                        </select>
+                        <div class="overSelect"></div>
+                    </div>
+        
+                    <div id="checkBoxes3" class="checkboxes">
+                        <label for="3a">
+                            <input type="checkbox" id="3a" />
+                            checkBox1
+                        </label>
+        
+                        <label for="3b">
+                            <input type="checkbox" id="3b" />
+                            checkBox2
+                        </label>
+                        <label for="3c">
+                            <input type="checkbox" id="3c" />
+                            checkBox3
+                        </label>
+                        <label for="3d">
+                            <input type="checkbox" id="3d" />
+                            checkBox4
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <input type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+
+<script src="{% static 'form.js' %}"></script>
+</body>
+
+</html>

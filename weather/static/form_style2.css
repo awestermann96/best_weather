@@ -1,0 +1,67 @@
+h1 {
+  text-align: center;
+  color: darkblue;
+}
+
+.multipleSelection {
+  background-color: #BCC2C1;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.checkboxes {
+  display: none;
+  border: 1px #8DF5E4 solid;
+}
+
+.checkboxes label {
+  display: block;
+}
+
+.checkboxes label:hover {
+  background-color: #4F615E;
+  color: white;
+  /* Added text color for better visibility */
+}
+
+
+.card {
+  background-color: dodgerblue;
+  color: white;
+  padding: 1rem;
+  height: 4rem;
+  font-size: 22px;
+  padding: 1rem;
+}
+
+.cards {
+  background-color: darkblue;
+  max-width: 1200px;
+  margin: 0 10vw;
+  display: grid;
+  grid-gap: 1rem;
+}
+
+@media (min-width: 600px) {
+.cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+.cards { grid-template-columns: repeat(3, 1fr); }
+}
+

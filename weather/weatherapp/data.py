@@ -16,9 +16,31 @@ sites = requests.get(met_dp + sites_url + '?key=' + API_key)
 
 sites_json = sites.json().get('Locations').get('Location')
 
-sites_region = {item.get('id'): item.get('region') for item in sites_json}
+sites_df = pd.DataFrame(sites_json)
+sites_df = sites_df.drop(['elevation', 'id', 'obsSource'], axis=1)
+sites_df = sites_df.sort_values('region')
+
+regions = sites_df['region'].unique()
+
+regions_dict = {'nw': 'North West', 'os': 'Orkney & Shetland', 
+                'gr': 'Grampian', 'he': 'Highlands & Eilean Siar',
+                'ni': 'Northern Ireland', 'se': 'London & South East',
+                'ee': 'East', 'wm': 'West Midlands',
+                'wl': 'Wales', 'dg': 'Dumfries, Galloway, Lothian & Borders', 
+                'st': 'Strathclyde', 'ne': 'North East',
+                'yh': 'Yorkshire & Humber', 'em': 'East Midlands',
+                'sw': 'South West', 'ta': 'Central, Tayside & Fife'}
+
+sites_df['region'] = sites_df['region'].map(regions_dict)
+
+sites_df.to_csv('Sites_List.csv', index=False)
+
 
 #####################
+
+sites_region = {item.get('id'): item.get('region') for item in sites_json}
+
+
 
 forecast_url = 'val/wxfcs/all/json/all?res=3hourly'
 

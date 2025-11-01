@@ -1,0 +1,29 @@
+h1 {
+  text-align: center
+}
+
+.card {
+    background-color: dodgerblue;
+    color: white;
+    padding: 1rem;
+    height: 4rem;
+    font-size: 22px;
+    padding: 1rem;
+  }
+
+  .cards {
+    background-color: purple;
+    max-width: 1200px;
+    margin: 0 10vw;
+    display: grid;
+    grid-gap: 1rem;
+  }
+
+@media (min-width: 600px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .cards { grid-template-columns: repeat(3, 1fr); }
+}
+

@@ -1,24 +1,42 @@
 from django.shortcuts import render
+from .models import WeatherData
 import json
 import urllib.request
 
-# Create your views here.
-def index(request):
-    if request.method == 'POST':
-        city = request.POST['city']
-        res = urllib.request.urlopen('http://api.openweathermap.org/data/2.5/weather?q='+city+'&appid=7b45508ec5bb9d2efbd888c5a9cb6d9c').read()
-        json_data = json.loads(res)
-        data = {
-            "country_code": str(json_data['sys']['country']),
-            "coordinate": str(json_data['coord']['lon']) + ' ' + \
-            str(json_data['coord']['lat']),
-            "temp": str(json_data['main']['temp']) + 'k',
-            "pressure": str(json_data['main']['pressure']),
-            "humidity": str(json_data['main']['humidity']),
-        }
-    #need to assign 'else' statement otherwise error about city not being assigned to
-    else:
-        city = ''
-        data = {}
+def home(request):
+    return render(request, 'index.html')
 
-    return render(request, 'index.html', {'city':city, 'data':data})
+# Create your views here.
+def weather_list(request):
+    weather = WeatherData.objects.all()[:9]
+    return render(request, 'weather_list.html', {'weather_list': weather})
+
+def result(request):
+    words = request.GET['Region']
+    return render(request, 'result.html', 
+                  {'words': words})
+
+
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from .forms import NameForm
+
+
+def search(request):
+    # if this is a POST request we need to process the form data
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = NameForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect("/thanks/")
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NameForm()
+
+    return render(request, "home2.html", {"form": form})
